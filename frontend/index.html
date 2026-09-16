@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Services - Week 4</title>
+</head>
+<body>
+    <h1>Cloud Services - Weekly Assignment 4</h1>
+    <h2>Three-Tier Application on Rahti</h2>
+    <p>Iago Prol González</p>
+<p><strong>Application version:</strong> 1.0.1</p>
+
+    <hr>
+
+    <h3>End-to-End Connection</h3>
+
+    <p><strong>Frontend:</strong> Nginx</p>
+    <p><strong>Backend:</strong> Flask + Gunicorn</p>
+    <p><strong>Database:</strong> MySQL</p>
+
+    <p id="status">Connecting to backend and database...</p>
+
+    <p>
+        <strong>MySQL server time:</strong>
+        <span id="database-time">Loading...</span>
+    </p>
+
+    <p>
+        <strong>Persistent visit counter:</strong>
+        <span id="visits">Loading...</span>
+    </p>
+
+    <script>
+        fetch('/api')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('HTTP ' + response.status);
+                }
+                return response.json();
+            })
+            .then(data => {
+                document.getElementById('status').textContent = data.message;
+                document.getElementById('database-time').textContent = data.database_time;
+                document.getElementById('visits').textContent = data.visits;
+            })
+            .catch(error => {
+                document.getElementById('status').textContent =
+                    'API connection error: ' + error;
+            });
+    </script>
+</body>
+</html>
